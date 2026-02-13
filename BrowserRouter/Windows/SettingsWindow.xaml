@@ -1,0 +1,217 @@
+<Window x:Class="BrowserRouter.Windows.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Browser Router - Settings"
+        Width="700" Height="560"
+        WindowStartupLocation="CenterScreen"
+        Background="#F3F3F3">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="4,2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="MinWidth" Value="70"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="4,3"/>
+            <Setter Property="Margin" Value="0,2"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Padding" Value="4,3"/>
+            <Setter Property="Margin" Value="0,2"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TabControl Grid.Row="0" Margin="8">
+
+            <!-- ===== PROFILES TAB ===== -->
+            <TabItem Header="Profiles">
+                <Grid Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <ListBox x:Name="ProfileListBox" Grid.Row="0"
+                             SelectionChanged="ProfileListBox_SelectionChanged"
+                             Margin="0,0,0,8">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="4,2">
+                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" MinWidth="180"/>
+                                    <TextBlock Text="{Binding Executable}" Foreground="#555" FontSize="11"
+                                               TextTrimming="CharacterEllipsis" MaxWidth="320"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <!-- Profile Edit Form -->
+                    <Border Grid.Row="1" Background="White" BorderBrush="#DDD" BorderThickness="1"
+                            Padding="12" Margin="0,0,0,4" x:Name="ProfileEditPanel">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="90"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="Name:" VerticalAlignment="Center" Grid.Row="0"/>
+                            <TextBox x:Name="ProfileNameBox" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"/>
+
+                            <TextBlock Text="Executable:" VerticalAlignment="Center" Grid.Row="1"/>
+                            <TextBox x:Name="ProfileExeBox" Grid.Row="1" Grid.Column="1"/>
+                            <Button Content="Browse..." Grid.Row="1" Grid.Column="2" Click="BrowseExe_Click"/>
+
+                            <TextBlock Text="Arguments:" VerticalAlignment="Center" Grid.Row="2"/>
+                            <TextBox x:Name="ProfileArgsBox" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+                                     ToolTip="Space-separated arguments, e.g. --profile-directory=Default"/>
+
+                            <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"
+                                        HorizontalAlignment="Right" Margin="0,8,0,0">
+                                <Button Content="Add New" Click="AddProfile_Click"/>
+                                <Button Content="Save" Click="SaveProfile_Click"/>
+                                <Button Content="Delete" Click="DeleteProfile_Click" Foreground="Red"/>
+                                <Button Content="Auto-Detect" Click="AutoDetect_Click"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <!-- ===== RULES TAB ===== -->
+            <TabItem Header="Rules">
+                <Grid Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <ListBox x:Name="RuleListBox" Grid.Row="0"
+                             SelectionChanged="RuleListBox_SelectionChanged"
+                             Margin="0,0,0,8">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="4,2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="200"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding PatternType}" Foreground="#888" FontSize="11" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding Pattern}" FontWeight="SemiBold" Grid.Column="1" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="{Binding Comment}" Foreground="#555" FontSize="11" Grid.Column="2"
+                                               TextTrimming="CharacterEllipsis"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <!-- Rule Edit Form -->
+                    <Border Grid.Row="1" Background="White" BorderBrush="#DDD" BorderThickness="1"
+                            Padding="12" Margin="0,0,0,4">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="90"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="Pattern:" VerticalAlignment="Center" Grid.Row="0"/>
+                            <TextBox x:Name="RulePatternBox" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"/>
+
+                            <TextBlock Text="Type:" VerticalAlignment="Center" Grid.Row="1"/>
+                            <ComboBox x:Name="RuleTypeCombo" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+                                <ComboBoxItem Content="Domain" Tag="Domain"/>
+                                <ComboBoxItem Content="Regex" Tag="Regex"/>
+                                <ComboBoxItem Content="Prefix" Tag="Prefix"/>
+                            </ComboBox>
+
+                            <TextBlock Text="Profiles:" VerticalAlignment="Top" Margin="0,6,0,0" Grid.Row="2"/>
+                            <ListBox x:Name="RuleProfilesListBox" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+                                     Height="70" SelectionMode="Multiple"/>
+
+                            <TextBlock Text="Comment:" VerticalAlignment="Center" Grid.Row="3"/>
+                            <TextBox x:Name="RuleCommentBox" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"/>
+
+                            <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"
+                                        HorizontalAlignment="Right" Margin="0,8,0,0">
+                                <Button Content="Add New" Click="AddRule_Click"/>
+                                <Button Content="Save" Click="SaveRule_Click"/>
+                                <Button Content="Delete" Click="DeleteRule_Click" Foreground="Red"/>
+                                <Button Content="Move Up" Click="MoveRuleUp_Click"/>
+                                <Button Content="Move Down" Click="MoveRuleDown_Click"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <!-- ===== REGISTRATION TAB ===== -->
+            <TabItem Header="Registration">
+                <StackPanel Margin="20">
+                    <TextBlock TextWrapping="Wrap" Margin="0,0,0,12" FontSize="13">
+                        Register Browser Router as a URL handler so Windows can route links to it.
+                        After registering, you must go to Windows Settings to set it as default.
+                    </TextBlock>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <Button Content="Register as Default Browser" Click="Register_Click" Padding="14,7"/>
+                        <Button Content="Unregister" Click="Unregister_Click" Padding="14,7" Foreground="Red"/>
+                    </StackPanel>
+
+                    <TextBlock x:Name="RegistrationStatus" Foreground="#555" FontSize="12" Margin="0,0,0,16"/>
+
+                    <Button Content="Open Windows Default Apps Settings" Click="OpenDefaultApps_Click"
+                            HorizontalAlignment="Left" Padding="14,7"/>
+
+                    <TextBlock Margin="0,20,0,4" FontWeight="SemiBold">Config file location:</TextBlock>
+                    <TextBlock x:Name="ConfigPathText" FontSize="11" Foreground="#555" TextWrapping="Wrap"/>
+                    <Button Content="Open Config Folder" Click="OpenConfigFolder_Click" HorizontalAlignment="Left" Margin="0,8,0,0"/>
+                </StackPanel>
+            </TabItem>
+
+            <!-- ===== LOG TAB ===== -->
+            <TabItem Header="Log">
+                <Grid Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ListBox x:Name="LogListBox" Grid.Row="0" FontFamily="Consolas" FontSize="11"/>
+                    <Button Grid.Row="1" Content="Clear Log" Click="ClearLog_Click"
+                            HorizontalAlignment="Right" Margin="0,4,0,0"/>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+
+        <!-- Bottom bar -->
+        <Border Grid.Row="1" Background="#E8E8E8" BorderBrush="#CCC" BorderThickness="0,1,0,0" Padding="8,6">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Save &amp; Close" Click="SaveAndClose_Click" FontWeight="SemiBold"/>
+                <Button Content="Close" Click="CloseWindow_Click"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

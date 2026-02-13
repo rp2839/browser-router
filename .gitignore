@@ -1,0 +1,18 @@
+# .NET build outputs
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+# Publish output
+publish/
+
+# Rider
+.idea/
+
+# VS Code
+.vscode/
+
+# Local test configs (don't commit personal browser paths)
+# (actual config lives in %APPDATA%\BrowserRouter\config.json, not here)

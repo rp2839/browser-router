@@ -1,0 +1,59 @@
+<Window x:Class="BrowserRouter.Windows.PickerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Open With..."
+        Width="420" SizeToContent="Height"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Topmost="True"
+        ShowInTaskbar="False"
+        Background="#F3F3F3">
+
+    <Window.Resources>
+        <Style x:Key="ProfileButton" TargetType="Button">
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="Margin" Value="0,4"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E8F0FE"/>
+                    <Setter Property="BorderBrush" Value="#1A73E8"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <StackPanel Margin="20">
+        <TextBlock Text="Open with:" FontSize="11" Foreground="#666" Margin="0,0,0,4"/>
+        <TextBlock x:Name="UrlText" TextTrimming="CharacterEllipsis" FontSize="12"
+                   Foreground="#333" Margin="0,0,0,16" ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+
+        <ItemsControl x:Name="ProfileList">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Style="{StaticResource ProfileButton}"
+                            Content="{Binding Name}"
+                            Tag="{Binding}"
+                            Click="ProfileButton_Click"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Separator Margin="0,12"/>
+
+        <CheckBox x:Name="RememberCheck"
+                  Content="Always use this for this domain"
+                  FontSize="11"
+                  Margin="0,0,0,12"/>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Cancel" Click="Cancel_Click" Width="80"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
